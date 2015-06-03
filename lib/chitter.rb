@@ -1,21 +1,7 @@
 require 'sinatra/base'
-require 'data_mapper'
 require 'rack-flash'
 
-# ----- DATAMAPPER SETUP BEGIN --------#
-
-env = ENV['RACK_ENV'] || 'development'
-
-DataMapper.setup(:default, "postgres://localhost/chitter_#{env}")
-
-require './lib/user'
-require './lib/peep'
-
-DataMapper.finalize
-
-DataMapper.auto_upgrade!
-
-# ------ DATAMAPPER SETUP END ---------#
+require_relative './datamapper_setup'
 
 class Chitter < Sinatra::Base
 

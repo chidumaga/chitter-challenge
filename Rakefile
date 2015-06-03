@@ -1,15 +1,27 @@
-task test: [:cop, :spec, :cuke]
+require 'data_mapper'
+require './lib/datamapper_setup'
 
-task default: `bundle exec rackup`
+
+task test: [:cop, :spec]
+
+# task default: `bundle exec rackup`
 
 begin
-  require 'cucumber/rake/task'
   require 'rspec/core/rake_task'
   require 'rubocop/rake_task'
   RuboCop::RakeTask.new :cop
   RSpec::Core::RakeTask.new :spec
-  Cucumber::Rake::Task.new :cuke
 rescue LoadError => e
   puts "Test dependencies could not be loaded"
+end
+
+task :auto_upgrade do
+  DataMapper.auto_upgrade!
+  puts 'Auto-upgrade complete (no data loss)'
+end
+
+task :auto_migrate do
+  DataMapper.auto_migrate!
+  puts 'Auto-migrate complete (data could have been lost)'
 end
 
