@@ -26,9 +26,7 @@ class Chitter < Sinatra::Base
   use Rack::MethodOverride
 
   get '/' do
-    @peeps = Peep.all
-    @peeps.reverse!
-
+    @peeps = Peep.sort_peeps
     erb :index
   end
 
@@ -69,7 +67,7 @@ class Chitter < Sinatra::Base
       session[:user_id] = user.id
       redirect to('/')
     else
-      flash[:notice] = "Sorry, login invalid"
+      flash.now[:notice] = "Sorry, login invalid"
       erb :'/sessions/new'
     end
 

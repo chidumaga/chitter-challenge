@@ -1,4 +1,5 @@
 require 'capybara/rspec'
+require_relative '../helpers/sign_in'
 
 feature "Posting peeps" do
 
@@ -7,25 +8,14 @@ feature "Posting peeps" do
   end
 
   scenario "Users are able to post peeps when signed in" do
-    expect(Peep.count).to eq(0)
-
     sign_in("chidu@chidu.com", "12345")
     peep("this is a test peep")
     expect(Peep.count).to eq(1)
 
-    peep = Peep.get(1)
+    peep = Peep.first
 
     expect(peep.message).to eq("this is a test peep")
     expect(page).to have_content("this is a test peep")
-  end
-
-  def sign_in email, password
-    visit '/sessions/new'
-    within('#sign-in-form') do
-      fill_in "email", with: email
-      fill_in "password", with: password
-      click_button "Sign In"
-    end
   end
 
   def peep msg

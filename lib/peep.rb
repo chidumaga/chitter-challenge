@@ -8,4 +8,8 @@ class Peep
   property :message, Text
   property :timestamp, Time
 
+  def self.sort_peeps
+    all.reverse!
+  end
+
 end

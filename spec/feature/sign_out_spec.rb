@@ -1,4 +1,5 @@
 require 'capybara/rspec'
+require_relative '../helpers/sign_in'
 
 feature "User can sign out" do
 
@@ -10,15 +11,6 @@ feature "User can sign out" do
     sign_in("chidu@chidu.com", "12345")
     click_button "Sign out"
     expect(page).to have_content("Goodbye")
-  end
-
-  def sign_in email, password
-    visit '/sessions/new'
-    within('#sign-in-form') do
-      fill_in "email", with: email
-      fill_in "password", with: password
-      click_button "Sign In"
-    end
   end
 
 end
